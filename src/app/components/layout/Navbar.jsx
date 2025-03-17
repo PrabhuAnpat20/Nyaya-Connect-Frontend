@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Menu, X, Scale } from "lucide-react";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,18 +19,30 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-gray-600 hover:text-teal-600 transition-colors">
+            <a
+              href="#features"
+              className="text-gray-600 hover:text-teal-600 transition-colors"
+            >
               Features
             </a>
-            <a href="#about" className="text-gray-600 hover:text-teal-600 transition-colors">
+            <a
+              href="#about"
+              className="text-gray-600 hover:text-teal-600 transition-colors"
+            >
               About
             </a>
-            <a href="#contact" className="text-gray-600 hover:text-teal-600 transition-colors">
+            <a
+              href="#contact"
+              className="text-gray-600 hover:text-teal-600 transition-colors"
+            >
               Contact
             </a>
-            <button className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-6 py-2 rounded-full hover:from-teal-600 hover:to-emerald-600 transition-all transform hover:scale-105">
+            <Link
+              href="/assistant"
+              className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-6 py-2 rounded-full hover:from-teal-600 hover:to-emerald-600 transition-all transform hover:scale-105 cursor-pointer"
+            >
               Get Started
-            </button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -38,7 +51,11 @@ export default function Navbar() {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-gray-600 hover:text-gray-900"
             >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
@@ -48,13 +65,22 @@ export default function Navbar() {
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            <a href="#features" className="block px-3 py-2 text-gray-600 hover:text-teal-600">
+            <a
+              href="#features"
+              className="block px-3 py-2 text-gray-600 hover:text-teal-600"
+            >
               Features
             </a>
-            <a href="#about" className="block px-3 py-2 text-gray-600 hover:text-teal-600">
+            <a
+              href="#about"
+              className="block px-3 py-2 text-gray-600 hover:text-teal-600"
+            >
               About
             </a>
-            <a href="#contact" className="block px-3 py-2 text-gray-600 hover:text-teal-600">
+            <a
+              href="#contact"
+              className="block px-3 py-2 text-gray-600 hover:text-teal-600"
+            >
               Contact
             </a>
           </div>

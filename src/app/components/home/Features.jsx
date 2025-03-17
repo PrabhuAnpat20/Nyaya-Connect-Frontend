@@ -7,9 +7,6 @@ export default function Features() {
     <div className="py-16 bg-gradient-to-b from-white to-teal-50" id="features">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:text-center">
-          <h2 className="text-base text-teal-600 font-semibold tracking-wide uppercase">
-            Features
-          </h2>
           <p className="mt-2 text-3xl leading-8 font-extrabold text-gray-900 sm:text-4xl">
             Your Complete Legal Learning Platform
           </p>
