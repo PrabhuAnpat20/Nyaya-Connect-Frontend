@@ -30,9 +30,12 @@ function App() {
       ]);
 
       try {
-        const response = await axios.post("http://localhost:3000/api/chat", {
-          query: message,
-        });
+        const response = await axios.post(
+          "https://nyaya-connect-genai.onrender.com/api/chat",
+          {
+            query: message,
+          }
+        );
 
         setChatHistory((prev) => [
           ...prev,
