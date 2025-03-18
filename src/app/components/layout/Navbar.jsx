@@ -46,30 +46,30 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a
+            <Link
               href="/"
               className="text-gray-600 hover:text-teal-600 transition-colors"
             >
               Home
-            </a>
-            <a
+            </Link>
+            <Link
               href="/laws"
               className="text-gray-600 hover:text-teal-600 transition-colors"
             >
               Laws To Know
-            </a>
-            <a
+            </Link>
+            <Link
               href="/assistant"
               className="text-gray-600 hover:text-teal-600 transition-colors"
             >
               AI Assistant
-            </a>
-            <a
+            </Link>
+            <Link
               href="/news"
               className="text-gray-600 hover:text-teal-600 transition-colors"
             >
               News
-            </a>
+            </Link>
             {token ? (
               <div className="relative">
                 <button
@@ -123,24 +123,24 @@ export default function Navbar() {
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            <a
-              href="#features"
+            <Link
+              href="/features"
               className="block px-3 py-2 text-gray-600 hover:text-teal-600"
             >
               Features
-            </a>
-            <a
-              href="#about"
+            </Link>
+            <Link
+              href="/about"
               className="block px-3 py-2 text-gray-600 hover:text-teal-600"
             >
               About
-            </a>
-            <a
-              href="#contact"
+            </Link>
+            <Link
+              href="/contact"
               className="block px-3 py-2 text-gray-600 hover:text-teal-600"
             >
               Contact
-            </a>
+            </Link>
             {token && (
               <>
                 <div className="block px-3 py-2 text-gray-600 border-t">
