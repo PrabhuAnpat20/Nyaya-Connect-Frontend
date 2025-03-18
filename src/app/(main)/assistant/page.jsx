@@ -1,14 +1,24 @@
 "use client";
-import React, { useState } from "react";
-import { MessageSquare, Send, Loader2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { MessageSquare, Send, Loader2, Mic, Volume2, VolumeX } from "lucide-react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import withAuth from "@/app/utils/isAuth";
 import remarkGfm from "remark-gfm"; // Add this import at the top
+
 function App() {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
+
+  // Check if speech recognition is supported
+  useEffect(() => {
+    const isSpeechRecognitionSupported = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
+    setSpeechSupported(isSpeechRecognitionSupported);
+  }, []);
 
   const commonQuestions = [
     "What are my rights as a tenant?",
@@ -57,6 +67,71 @@ function App() {
         setIsLoading(false);
         setMessage("");
       }
+    }
+  };
+
+  // Speech recognition function
+  const startListening = () => {
+    if (!speechSupported) return;
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setMessage(transcript);
+    };
+
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error', event.error);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.start();
+  };
+
+  // Text-to-speech function
+  const speakText = (text) => {
+    if ('speechSynthesis' in window) {
+      // Cancel any ongoing speech
+      window.speechSynthesis.cancel();
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      
+      utterance.onstart = () => {
+        setIsSpeaking(true);
+      };
+      
+      utterance.onend = () => {
+        setIsSpeaking(false);
+      };
+      
+      utterance.onerror = (event) => {
+        console.error('Speech synthesis error', event);
+        setIsSpeaking(false);
+      };
+      
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  // Stop speaking
+  const stopSpeaking = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
     }
   };
 
@@ -109,6 +184,24 @@ function App() {
                       <h2 className="text-xl font-semibold text-gray-800">
                         Response
                       </h2>
+                      {/* Text-to-speech button */}
+                      {!isSpeaking ? (
+                        <button 
+                          onClick={() => speakText(msg.content)}
+                          className="ml-auto text-teal-600 hover:text-teal-800 transition-colors"
+                          title="Read aloud"
+                        >
+                          <Volume2 className="w-5 h-5" />
+                        </button>
+                      ) : (
+                        <button 
+                          onClick={stopSpeaking}
+                          className="ml-auto text-red-500 hover:text-red-700 transition-colors"
+                          title="Stop reading"
+                        >
+                          <VolumeX className="w-5 h-5" />
+                        </button>
+                      )}
                     </div>
                     <div className="prose prose-sm md:prose-base lg:prose-lg prose-headings:font-bold prose-headings:text-gray-900 prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-p:text-gray-700 prose-strong:text-gray-900 prose-ul:list-disc prose-ol:list-decimal prose-li:ml-4 prose-a:text-blue-600 hover:prose-a:text-blue-700 prose-a:underline max-w-none">
                       <ReactMarkdown
@@ -167,6 +260,18 @@ function App() {
                 className="flex-1 rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all text-base"
                 disabled={isLoading}
               />
+              {/* Speech recognition button */}
+              {speechSupported && (
+                <button
+                  type="button"
+                  onClick={startListening}
+                  className={`text-teal-500 hover:text-teal-600 transition-colors disabled:opacity-50 ${isListening ? 'animate-pulse text-red-500' : ''}`}
+                  disabled={isLoading || isListening}
+                  title="Speak your question"
+                >
+                  <Mic className="w-7 h-7" />
+                </button>
+              )}
               <button
                 type="submit"
                 className="text-teal-500 hover:text-teal-600 transition-colors disabled:opacity-50"
