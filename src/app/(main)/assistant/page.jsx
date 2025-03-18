@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { MessageSquare, Send, Loader2 } from "lucide-react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
-
+import withAuth from "@/app/utils/isAuth";
 function App() {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
@@ -152,4 +152,4 @@ function App() {
   );
 }
 
-export default App;
+export default withAuth(App);

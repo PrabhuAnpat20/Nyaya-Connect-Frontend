@@ -1,10 +1,38 @@
 "use client";
-import React, { useState } from "react";
-import { Menu, X, Scale } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Menu, X, Scale, UserCircle, LogOut } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [token, setToken] = useState(null);
+  const pathname = usePathname();
+
+  // Don't render navbar on auth page
+  if (pathname === "/auth") {
+    return null;
+  }
+
+  // Fetch token and username from local storage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      const storedUser = JSON.parse(
+        localStorage.getItem("user") || '{"name": "User"}'
+      );
+      setToken(storedToken);
+      setUsername(storedUser.name);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    router.push("/auth");
+  };
 
   return (
     <nav className="bg-white shadow-lg border-b border-teal-100 sticky top-0 z-50">
@@ -26,10 +54,10 @@ export default function Navbar() {
               Features
             </a>
             <a
-              href="#about"
+              href="/assistant"
               className="text-gray-600 hover:text-teal-600 transition-colors"
             >
-              About
+              AI Assistant
             </a>
             <a
               href="/news"
@@ -37,15 +65,40 @@ export default function Navbar() {
             >
               News
             </a>
-            <Link
-              href="/assistant"
-              className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-6 py-2 rounded-full hover:from-teal-600 hover:to-emerald-600 transition-all transform hover:scale-105 cursor-pointer"
-            >
-              Get Started
-            </Link>
+            {token ? (
+              <div className="relative">
+                <button
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="flex items-center space-x-2 text-gray-600 hover:text-teal-600"
+                >
+                  <UserCircle className="h-6 w-6" />
+                </button>
+                {isProfileOpen && (
+                  <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl z-50">
+                    <div className="px-4 py-2 text-sm text-gray-700 border-b">
+                      {username}
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 flex items-center"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href="/assistant"
+                className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-6 py-2 rounded-full hover:from-teal-600 hover:to-emerald-600 transition-all transform hover:scale-105 cursor-pointer"
+              >
+                Get Started
+              </Link>
+            )}
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile Navigation */}
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -83,6 +136,22 @@ export default function Navbar() {
             >
               Contact
             </a>
+            {token && (
+              <>
+                <div className="block px-3 py-2 text-gray-600 border-t">
+                  <div className="px-3 py-2 text-sm font-medium">
+                    {username}
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
