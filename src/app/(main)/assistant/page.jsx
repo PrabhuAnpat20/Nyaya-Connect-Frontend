@@ -4,6 +4,7 @@ import { MessageSquare, Send, Loader2 } from "lucide-react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import withAuth from "@/app/utils/isAuth";
+import remarkGfm from "remark-gfm"; // Add this import at the top
 function App() {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
@@ -29,12 +30,9 @@ function App() {
       ]);
 
       try {
-        const response = await axios.post(
-          "https://nyaya-connect-genai.onrender.com/api/chat",
-          {
-            query: message,
-          }
-        );
+        const response = await axios.post("http://localhost:3000/api/chat", {
+          query: message,
+        });
 
         setChatHistory((prev) => [
           ...prev,
@@ -109,8 +107,41 @@ function App() {
                         Response
                       </h2>
                     </div>
-                    <div className="prose max-w-none">
-                      <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    <div className="prose prose-sm md:prose-base lg:prose-lg prose-headings:font-bold prose-headings:text-gray-900 prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-p:text-gray-700 prose-strong:text-gray-900 prose-ul:list-disc prose-ol:list-decimal prose-li:ml-4 prose-a:text-blue-600 hover:prose-a:text-blue-700 prose-a:underline max-w-none">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          h1: ({ node, ...props }) => (
+                            <h1
+                              className="text-2xl font-bold mb-4"
+                              {...props}
+                            />
+                          ),
+                          h2: ({ node, ...props }) => (
+                            <h2
+                              className="text-xl font-bold mt-6 mb-3"
+                              {...props}
+                            />
+                          ),
+                          ul: ({ node, ...props }) => (
+                            <ul className="list-disc pl-6 mb-4" {...props} />
+                          ),
+                          li: ({ node, ...props }) => (
+                            <li className="mb-1" {...props} />
+                          ),
+                          p: ({ node, ...props }) => (
+                            <p className="mb-4" {...props} />
+                          ),
+                          strong: ({ node, ...props }) => (
+                            <strong
+                              className="font-bold text-gray-900"
+                              {...props}
+                            />
+                          ),
+                        }}
+                      >
+                        {msg.content}
+                      </ReactMarkdown>
                     </div>
                   </div>
                 )}
