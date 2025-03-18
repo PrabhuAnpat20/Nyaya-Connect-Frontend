@@ -8,8 +8,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Scale, BookOpen } from "lucide-react"; // Add this import at the top
+import withAuth from "@/app/utils/isAuth";
 
-export default function LawsPage() {
+function LawsPage() {
   const [laws, setLaws] = useState([]);
   const [selectedLaw, setSelectedLaw] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -112,3 +113,4 @@ export default function LawsPage() {
     </div>
   );
 }
+export default withAuth(LawsPage);
