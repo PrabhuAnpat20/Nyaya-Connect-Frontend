@@ -10,24 +10,23 @@ export default function Navbar() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [token, setToken] = useState(null);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
 
-  // Don't render navbar on auth page
-  if (pathname === "/auth") {
+  useEffect(() => {
+    setMounted(true);
+    const storedToken = localStorage.getItem("token");
+    const storedUser = JSON.parse(
+      localStorage.getItem("user") || '{"name": "User"}'
+    );
+    setToken(storedToken);
+    setUsername(storedUser.name);
+  }, []);
+
+  // Don't render navbar on auth page and before mounting
+  if (!mounted || pathname === "/auth") {
     return null;
   }
-
-  // Fetch token and username from local storage on mount
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedToken = localStorage.getItem("token");
-      const storedUser = JSON.parse(
-        localStorage.getItem("user") || '{"name": "User"}'
-      );
-      setToken(storedToken);
-      setUsername(storedUser.name);
-    }
-  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -90,7 +89,7 @@ export default function Navbar() {
               </div>
             ) : (
               <Link
-                href="/assistant"
+                href="/auth"
                 className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-6 py-2 rounded-full hover:from-teal-600 hover:to-emerald-600 transition-all transform hover:scale-105 cursor-pointer"
               >
                 Get Started
