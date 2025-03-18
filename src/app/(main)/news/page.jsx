@@ -7,12 +7,23 @@ function Loader() {
     <div className="flex flex-col items-center justify-center min-h-[60vh]">
       <div className="relative w-24 h-24">
         <div className="absolute top-0 left-0 w-full h-full">
-          <div className="w-8 h-8 absolute top-0 left-0 right-0 mx-auto rounded-full bg-teal-500 animate-bounce" style={{ animationDelay: '0s' }}></div>
-          <div className="w-8 h-8 absolute top-0 left-0 right-0 mx-auto rounded-full bg-teal-400 animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-          <div className="w-8 h-8 absolute top-0 left-0 right-0 mx-auto rounded-full bg-teal-300 animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+          <div
+            className="w-8 h-8 absolute top-0 left-0 right-0 mx-auto rounded-full bg-teal-500 animate-bounce"
+            style={{ animationDelay: "0s" }}
+          ></div>
+          <div
+            className="w-8 h-8 absolute top-0 left-0 right-0 mx-auto rounded-full bg-teal-400 animate-bounce"
+            style={{ animationDelay: "0.2s" }}
+          ></div>
+          <div
+            className="w-8 h-8 absolute top-0 left-0 right-0 mx-auto rounded-full bg-teal-300 animate-bounce"
+            style={{ animationDelay: "0.4s" }}
+          ></div>
         </div>
       </div>
-      <p className="mt-4 text-xl text-gray-600 animate-pulse">Fetching Latest News...</p>
+      <p className="mt-4 text-xl text-gray-600 animate-pulse">
+        Fetching Latest News...
+      </p>
     </div>
   );
 }
@@ -26,7 +37,7 @@ function NewsPage() {
       try {
         const response = await fetch(
           "https://newsapi.org/v2/everything?" +
-            "q=(law OR court OR legal) AND india&" +
+            "q=(law OR court OR Judiciary) AND india&" +
             "sortBy=publishedAt&" +
             "language=en&" +
             "apiKey=77a26cff335b4d518aefb5d94eb46ee4",
