@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { useRouter } from "next/navigation";
+import api from "@/api/api";
 import {
   Dialog,
   DialogContent,
@@ -14,19 +15,12 @@ function LawsPage() {
   const [laws, setLaws] = useState([]);
   const [selectedLaw, setSelectedLaw] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchLaws = async () => {
       try {
-        const response = await axios.post(
-          "https://nyayaconnect-backend.onrender.com/law/user-laws",
-          {}, // empty body since we don't need to send data
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await api.post("/law/user-laws");
         setLaws(response.data.data);
       } catch (error) {
         console.error("Error fetching laws:", error);
@@ -48,6 +42,10 @@ function LawsPage() {
       </div>
     );
   }
+
+  const handleStartQuiz = (lawTitle) => {
+    router.push(`/quiz?topic=${encodeURIComponent(lawTitle)}`);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -106,6 +104,14 @@ function LawsPage() {
                   ))}
                 </ul>
               </div>
+            </div>
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={() => handleStartQuiz(selectedLaw.lawTitle)}
+                className="px-6 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors duration-200"
+              >
+                Take Quiz on This Topic
+              </button>
             </div>
           </DialogContent>
         )}
