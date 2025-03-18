@@ -70,7 +70,7 @@ function NewsPage() {
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-transform duration-200 hover:-translate-y-1"
             >
               {article.urlToImage && (
-                <div className="relative w-full h-48">
+                <div className="relative w-full h-40">
                   <Image
                     src={article.urlToImage}
                     alt={article.title}
@@ -80,18 +80,18 @@ function NewsPage() {
                   />
                 </div>
               )}
-              <div className="p-4">
-                <h2 className="text-xl font-semibold mb-2 text-gray-800 line-clamp-2">
+              <div className="p-3">
+                <h2 className="text-lg font-semibold mb-1.5 text-gray-800 line-clamp-2">
                   {article.title}
                 </h2>
-                <p className="text-gray-600 mb-4 line-clamp-3">
+                <p className="text-sm text-gray-600 mb-3 line-clamp-2">
                   {article.description}
                 </p>
                 <a
                   href={article.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors duration-200"
+                  className="inline-block px-3 py-1.5 text-sm bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors duration-200"
                 >
                   Read More
                 </a>

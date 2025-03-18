@@ -47,10 +47,16 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <a
-              href="#features"
+              href="/"
               className="text-gray-600 hover:text-teal-600 transition-colors"
             >
-              Features
+              Home
+            </a>
+            <a
+              href="/laws"
+              className="text-gray-600 hover:text-teal-600 transition-colors"
+            >
+              Laws To Know
             </a>
             <a
               href="/assistant"
