@@ -32,10 +32,10 @@ export default function Navbar() {
               About
             </a>
             <a
-              href="#contact"
+              href="/news"
               className="text-gray-600 hover:text-teal-600 transition-colors"
             >
-              Contact
+              News
             </a>
             <Link
               href="/assistant"
