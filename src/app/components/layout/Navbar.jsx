@@ -65,9 +65,9 @@ export default function Navbar() {
   }
 
   const handleLogout = () => {
-    logout(); // This already includes the redirect to /auth in the AuthContext
+    logout();
     setIsProfileOpen(false);
-    // No need to manually redirect here as it's handled in the AuthContext
+    router.push('/auth');
   };
 
   const handleLanguageChange = (lang) => {
