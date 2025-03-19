@@ -1,8 +1,11 @@
 "use client";
 import React from "react";
 import { Scale, Github } from "lucide-react";
+import { useLanguage } from "../../context/LanguageContext";
 
 export default function Footer() {
+  const { t } = useLanguage();
+  
   return (
     <footer className="bg-white border-t border-teal-100">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -28,23 +31,23 @@ export default function Footer() {
               href="#"
               className="text-gray-400 hover:text-teal-600 transition-colors"
             >
-              Privacy
+              {t('privacy')}
             </a>
             <a
               href="#"
               className="text-gray-400 hover:text-teal-600 transition-colors"
             >
-              Terms
+              {t('terms')}
             </a>
             <a
               href="#"
               className="text-gray-400 hover:text-teal-600 transition-colors"
             >
-              Contact
+              {t('contact')}
             </a>
           </div>
           <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
-            © 2024 Nyay Connect. All rights reserved.
+            {t('allRightsReserved')}
           </p>
         </div>
       </div>

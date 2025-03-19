@@ -1,7 +1,10 @@
 "use client";
 import React from "react";
+import { useLanguage } from "../../context/LanguageContext";
 
 export default function Hero() {
+  const { t } = useLanguage();
+  
   return (
     <div className="relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -10,9 +13,9 @@ export default function Hero() {
             {/* Hero content */}
             <div className="sm:text-center lg:text-left">
               <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                <span className="block">Master Legal Knowledge</span>
+                <span className="block">{t('masterLegal')}</span>
                 <span className="block bg-gradient-to-r from-teal-600 to-emerald-600 text-transparent bg-clip-text">
-                  Through Interactive Learning
+                  {t('throughInteractive')}
                 </span>
               </h1>
               {/* Rest of the hero content */}

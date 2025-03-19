@@ -18,14 +18,14 @@ import {
 import Image from "next/image";
 import { toast, Toaster } from "sonner"; // Add Toaster import here
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 
 const AuthPage = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  const { login } = useAuth();
+  const { login } = useAuth(); // This line is causing the error
   const [formData, setFormData] = useState({
     user_name: "",
     email: "",
