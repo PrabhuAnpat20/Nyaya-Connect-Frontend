@@ -67,7 +67,7 @@ export default function Navbar() {
   const handleLogout = () => {
     logout();
     setIsProfileOpen(false);
-    router.push('/auth');
+    router.push("/auth");
   };
 
   const handleLanguageChange = (lang) => {
@@ -106,6 +106,12 @@ export default function Navbar() {
               className="text-gray-600 hover:text-teal-600 transition-colors"
             >
               {t("lawsToKnow")}
+            </Link>
+            <Link
+              href="/doc"
+              className="text-gray-600 hover:text-teal-600 transition-colors"
+            >
+              {t("documentAssistant")}
             </Link>
             <Link
               href="/assistant"
@@ -159,7 +165,9 @@ export default function Navbar() {
                 >
                   <UserCircle className="h-6 w-6" />
                   <span className="text-sm">
-                    {user?.name || JSON.parse(localStorage.getItem('user'))?.name || 'User'}
+                    {user?.name ||
+                      JSON.parse(localStorage.getItem("user"))?.name ||
+                      "User"}
                   </span>
                 </button>
                 {isProfileOpen && (
@@ -218,6 +226,12 @@ export default function Navbar() {
               className="block px-3 py-2 text-gray-600 hover:text-teal-600"
             >
               {t("lawsToKnow")}
+            </Link>
+            <Link
+              href="/doc"
+              className="block px-3 py-2 text-gray-600 hover:text-teal-600"
+            >
+              {t("documentAssistant")}
             </Link>
             <Link
               href="/assistant"
