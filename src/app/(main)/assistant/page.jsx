@@ -1,10 +1,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { MessageSquare, Send, Loader2, Mic, Volume2, VolumeX } from "lucide-react";
+import {
+  MessageSquare,
+  Send,
+  Loader2,
+  Mic,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import withAuth from "@/app/utils/isAuth";
 import remarkGfm from "remark-gfm"; // Add this import at the top
+import { useLanguage } from "@/app/context/LanguageContext";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -13,20 +21,90 @@ function App() {
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
+  const { language, t } = useLanguage();
+
+  // Update common questions with translations
+  const commonQuestions = [
+    t("tenantRights") || "What are my rights as a tenant?",
+    t("smallClaims") || "How do I file a small claims case?",
+    t("carAccident") || "What should I do after a car accident?",
+    t("intellectualProperty") || "How can I protect my intellectual property?",
+  ];
 
   // Check if speech recognition is supported
   useEffect(() => {
-    const isSpeechRecognitionSupported = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
+    const isSpeechRecognitionSupported =
+      "SpeechRecognition" in window || "webkitSpeechRecognition" in window;
     setSpeechSupported(isSpeechRecognitionSupported);
   }, []);
 
-  const commonQuestions = [
-    "What are my rights as a tenant?",
-    "How do I file a small claims case?",
-    "What should I do after a car accident?",
-    "How can I protect my intellectual property?",
-  ];
+  // Update speech recognition language
+  const startListening = () => {
+    if (!speechSupported) return;
 
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang =
+      language === "hi" ? "hi-IN" : language === "mr" ? "mr-IN" : "en-US";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setMessage(transcript);
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error", event.error);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.start();
+  };
+
+  // Update text-to-speech language
+  const speakText = (text) => {
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang =
+        language === "hi" ? "hi-IN" : language === "mr" ? "mr-IN" : "en-US";
+      utterance.onstart = () => {
+        setIsSpeaking(true);
+      };
+
+      utterance.onend = () => {
+        setIsSpeaking(false);
+      };
+
+      utterance.onerror = (event) => {
+        console.error("Speech synthesis error", event);
+        setIsSpeaking(false);
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  // Stop speaking
+  const stopSpeaking = () => {
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    }
+  };
+
+  // Update API call to include language
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (message.trim()) {
@@ -44,6 +122,12 @@ function App() {
           "https://nyaya-connect-genai.onrender.com/api/chat",
           {
             query: message,
+            language:
+              language === "hi"
+                ? "hindi"
+                : language === "mr"
+                ? "marathi"
+                : "english",
           }
         );
 
@@ -51,7 +135,7 @@ function App() {
           ...prev,
           {
             type: "answer",
-            content: response.data.response.trim(), // Ensure clean markdown formatting
+            content: response.data.response.trim(),
           },
         ]);
       } catch (error) {
@@ -70,90 +154,27 @@ function App() {
     }
   };
 
-  // Speech recognition function
-  const startListening = () => {
-    if (!speechSupported) return;
-
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.continuous = false;
-    recognition.interimResults = false;
-
-    recognition.onstart = () => {
-      setIsListening(true);
-    };
-
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setMessage(transcript);
-    };
-
-    recognition.onerror = (event) => {
-      console.error('Speech recognition error', event.error);
-      setIsListening(false);
-    };
-
-    recognition.onend = () => {
-      setIsListening(false);
-    };
-
-    recognition.start();
-  };
-
-  // Text-to-speech function
-  const speakText = (text) => {
-    if ('speechSynthesis' in window) {
-      // Cancel any ongoing speech
-      window.speechSynthesis.cancel();
-      
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      
-      utterance.onstart = () => {
-        setIsSpeaking(true);
-      };
-      
-      utterance.onend = () => {
-        setIsSpeaking(false);
-      };
-      
-      utterance.onerror = (event) => {
-        console.error('Speech synthesis error', event);
-        setIsSpeaking(false);
-      };
-      
-      window.speechSynthesis.speak(utterance);
-    }
-  };
-
-  // Stop speaking
-  const stopSpeaking = () => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-    }
-  };
-
   return (
-    <div className=" px-6">
+    <div className="px-6">
       {/* Header */}
       <div className="text-center mb-4 pt-8">
         <h1 className="text-4xl font-bold text-teal-800 mb-2">
-          Legal AI Assistant
+          {t("legalAIAssistant") || "Legal AI Assistant"}
         </h1>
-        <p className="text-teal-700">Your trusted legal information guide</p>
+        <p className="text-teal-700">
+          {t("legalGuide") || "Your trusted legal information guide"}
+        </p>
       </div>
 
       {/* Chat Interface */}
       <div className="rounded-lg">
-        {/* Chat History - removed fixed height and internal scroll */}
         <div className="p-4 space-y-6">
           {chatHistory.length === 0 ? (
             <div className="text-center text-gray-600">
               <MessageSquare className="w-12 h-12 mx-auto mb-2 opacity-50" />
               <p className="text-lg mb-2">
-                How can I assist you with legal information today?
+                {t("howCanIHelp") ||
+                  "How can I assist you with legal information today?"}
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {commonQuestions.map((question, index) => (
@@ -186,7 +207,7 @@ function App() {
                       </h2>
                       {/* Text-to-speech button */}
                       {!isSpeaking ? (
-                        <button 
+                        <button
                           onClick={() => speakText(msg.content)}
                           className="ml-auto text-teal-600 hover:text-teal-800 transition-colors"
                           title="Read aloud"
@@ -194,7 +215,7 @@ function App() {
                           <Volume2 className="w-5 h-5" />
                         </button>
                       ) : (
-                        <button 
+                        <button
                           onClick={stopSpeaking}
                           className="ml-auto text-red-500 hover:text-red-700 transition-colors"
                           title="Stop reading"
@@ -256,7 +277,9 @@ function App() {
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Type your legal question here..."
+                placeholder={
+                  t("typeLegalQuestion") || "Type your legal question here..."
+                }
                 className="flex-1 rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all text-base"
                 disabled={isLoading}
               />
@@ -265,7 +288,9 @@ function App() {
                 <button
                   type="button"
                   onClick={startListening}
-                  className={`text-teal-500 hover:text-teal-600 transition-colors disabled:opacity-50 ${isListening ? 'animate-pulse text-red-500' : ''}`}
+                  className={`text-teal-500 hover:text-teal-600 transition-colors disabled:opacity-50 ${
+                    isListening ? "animate-pulse text-red-500" : ""
+                  }`}
                   disabled={isLoading || isListening}
                   title="Speak your question"
                 >

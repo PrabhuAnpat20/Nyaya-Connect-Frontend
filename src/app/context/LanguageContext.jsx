@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 // Translations
 const translations = {
@@ -12,11 +12,11 @@ const translations = {
     getStarted: "Get Started",
     logout: "Logout",
     language: "Language",
-    
+
     // Hero
     masterLegal: "Master Legal Knowledge",
     throughInteractive: "Through Interactive Learning",
-    
+
     // Features
     completeLegal: "Your Complete Legal Learning Platform",
     knowledgeBase: "Knowledge Base",
@@ -27,17 +27,27 @@ const translations = {
     documentSimplifierDesc: "Easy-to-understand legal documents.",
     interactiveQuizzes: "Interactive Quizzes",
     interactiveQuizzesDesc: "Learn through engaging legal quizzes.",
-    
+
     // CTA
     readyToStart: "Ready to start learning through interactive quizzes?",
     beginJourney: "Begin your journey to knowledge today.",
     giveQuiz: "Give Quiz",
-    
+
     // Footer
     privacy: "Privacy",
     terms: "Terms",
     contact: "Contact",
-    allRightsReserved: "© 2024 Nyay Connect. All rights reserved."
+    allRightsReserved: "© 2024 Nyay Connect. All rights reserved.",
+
+    //assistant
+    legalAIAssistant: "Legal AI Assistant",
+    legalGuide: "Your trusted legal information guide",
+    howCanIHelp: "How can I assist you with legal information today?",
+    typeLegalQuestion: "Type your legal question here...",
+    tenantRights: "What are my rights as a tenant?",
+    smallClaims: "How do I file a small claims case?",
+    carAccident: "What should I do after a car accident?",
+    intellectualProperty: "How can I protect my intellectual property?",
   },
   hi: {
     // Navbar
@@ -48,11 +58,11 @@ const translations = {
     getStarted: "शुरू करें",
     logout: "लॉग आउट",
     language: "भाषा",
-    
+
     // Hero
     masterLegal: "कानूनी ज्ञान में महारत हासिल करें",
     throughInteractive: "इंटरैक्टिव लर्निंग के माध्यम से",
-    
+
     // Features
     completeLegal: "आपका संपूर्ण कानूनी शिक्षा मंच",
     knowledgeBase: "ज्ञान आधार",
@@ -63,17 +73,27 @@ const translations = {
     documentSimplifierDesc: "आसानी से समझने योग्य कानूनी दस्तावेज़।",
     interactiveQuizzes: "इंटरैक्टिव क्विज़",
     interactiveQuizzesDesc: "आकर्षक कानूनी क्विज़ के माध्यम से सीखें।",
-    
+
     // CTA
-    readyToStart: "इंटरैक्टिव क्विज़ के माध्यम से सीखना शुरू करने के लिए तैयार हैं?",
+    readyToStart:
+      "इंटरैक्टिव क्विज़ के माध्यम से सीखना शुरू करने के लिए तैयार हैं?",
     beginJourney: "आज ही ज्ञान की यात्रा शुरू करें।",
     giveQuiz: "क्विज़ दें",
-    
+
     // Footer
     privacy: "गोपनीयता",
     terms: "शर्तें",
     contact: "संपर्क",
-    allRightsReserved: "© 2024 न्याय कनेक्ट। सर्वाधिकार सुरक्षित।"
+    allRightsReserved: "© 2024 न्याय कनेक्ट। सर्वाधिकार सुरक्षित।",
+    //assistnat
+    legalAIAssistant: "कानूनी AI सहायक",
+    legalGuide: "आपका विश्वसनीय कानूनी जानकारी मार्गदर्शक",
+    howCanIHelp: "मैं आज आपकी कानूनी जानकारी में कैसे मदद कर सकता हूं?",
+    typeLegalQuestion: "अपना कानूनी प्रश्न यहां टाइप करें...",
+    tenantRights: "किरायेदार के रूप में मेरे क्या अधिकार हैं?",
+    smallClaims: "छोटे दावों का मामला कैसे दर्ज करें?",
+    carAccident: "कार दुर्घटना के बाद क्या करना चाहिए?",
+    intellectualProperty: "मैं अपनी बौद्धिक संपदा की रक्षा कैसे कर सकता हूं?",
   },
   mr: {
     // Navbar
@@ -84,11 +104,11 @@ const translations = {
     getStarted: "सुरू करा",
     logout: "बाहेर पडा",
     language: "भाषा",
-    
+
     // Hero
     masterLegal: "कायदेशीर ज्ञानात प्रावीण्य मिळवा",
     throughInteractive: "इंटरॅक्टिव्ह शिक्षणाद्वारे",
-    
+
     // Features
     completeLegal: "तुमचे संपूर्ण कायदेशीर शिक्षण व्यासपीठ",
     knowledgeBase: "ज्ञान आधार",
@@ -99,18 +119,27 @@ const translations = {
     documentSimplifierDesc: "सहज समजण्यायोग्य कायदेशीर दस्तऐवज.",
     interactiveQuizzes: "इंटरॅक्टिव्ह क्विझेस",
     interactiveQuizzesDesc: "आकर्षक कायदेशीर क्विझेसद्वारे शिका.",
-    
+
     // CTA
     readyToStart: "इंटरॅक्टिव्ह क्विझेसद्वारे शिकण्यास तयार आहात?",
     beginJourney: "आजच तुमची ज्ञानाची यात्रा सुरू करा.",
     giveQuiz: "क्विझ द्या",
-    
+
     // Footer
     privacy: "गोपनीयता",
     terms: "अटी",
     contact: "संपर्क",
-    allRightsReserved: "© 2024 न्याय कनेक्ट. सर्व हक्क राखीव."
-  }
+    allRightsReserved: "© 2024 न्याय कनेक्ट. सर्व हक्क राखीव.",
+    //assistnat
+    legalAIAssistant: "कायदेशीर AI सहाय्यक",
+    legalGuide: "तुमचा विश्वसनीय कायदेशीर माहिती मार्गदर्शक",
+    howCanIHelp: "मी आज तुम्हाला कायदेशीर माहितीमध्ये कशी मदत करू शकतो?",
+    typeLegalQuestion: "तुमचा कायदेशीर प्रश्न येथे टाइप करा...",
+    tenantRights: "भाडेकरू म्हणून माझे हक्क काय आहेत?",
+    smallClaims: "लहान दावा कसा दाखल करावा?",
+    carAccident: "कार अपघातानंतर काय करावे?",
+    intellectualProperty: "मी माझी बौद्धिक संपदा कशी संरक्षित करू शकतो?",
+  },
 };
 
 // Create the language context
@@ -119,7 +148,7 @@ const LanguageContext = createContext();
 // Create a provider component
 export function LanguageProvider({ children }) {
   const [language, setLanguage] = useState("en");
-  
+
   useEffect(() => {
     // Get the stored language preference or default to English
     const storedLanguage = localStorage.getItem("language") || "en";
