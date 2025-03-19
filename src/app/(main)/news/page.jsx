@@ -31,25 +31,24 @@ function Loader() {
 function NewsPage() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch(
-          "https://newsapi.org/v2/everything?" +
-            "q=(law OR court OR Judiciary) AND india&" +
-            "sortBy=publishedAt&" +
-            "language=en&" +
-            "apiKey=77a26cff335b4d518aefb5d94eb46ee4",
-          {
-            next: { revalidate: 3600 }, // Revalidate every hour
-          }
-        );
+        // Use our internal API route instead of directly calling News API
+        const response = await fetch('/api/news');
         const data = await response.json();
+        
+        if (data.status === 'error') {
+          throw new Error(data.message || 'Failed to fetch news');
+        }
+        
         setNews(data.articles || []);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching news:", error);
+        setError(error.message || 'Failed to fetch news');
         setLoading(false);
         setNews([]);
       }
@@ -57,6 +56,19 @@ function NewsPage() {
 
     fetchNews();
   }, []);
+
+  // Show error message if there's an error
+  if (error && !loading) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">Error: </strong>
+          <span className="block sm:inline">{error}</span>
+          <p className="mt-2">We're unable to load the latest legal news at this time.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
