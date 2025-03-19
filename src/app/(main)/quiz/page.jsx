@@ -29,6 +29,7 @@ const QuizPage = () => {
     "Environmental Law",
     "Intellectual Property Law",
   ];
+  const [resources, setResources] = useState({ articles: [], videos: [] });
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -105,25 +106,85 @@ const QuizPage = () => {
     }
   };
 
+  // Add this function to fetch resources
+  // Add this to your state declarations at the top
+  const [isLoadingResources, setIsLoadingResources] = useState(false);
+  
+  // Update the fetchResources function
+  const fetchResources = async (topic) => {
+    setIsLoadingResources(true);
+    try {
+      const response = await fetch(
+        `/api/yt?topic=${encodeURIComponent(topic)}`
+      );
+      const data = await response.json();
+      setResources(data);
+    } catch (error) {
+      console.error("Error fetching resources:", error);
+    } finally {
+      setIsLoadingResources(false);
+    }
+  };
+  
+  // In the quiz completed section, update the Resources Section
+  {/* Resources Section */}
+  <div className="max-w-8xl mx-auto">
+    <h3 className="text-2xl font-bold mb-6 text-center">
+      Resources You Can explore{" "}
+    </h3>
+  
+    {isLoadingResources ? (
+      <div className="flex flex-col items-center justify-center py-8">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-teal-100 border-t-teal-600"></div>
+        <p className="mt-4 text-teal-600 text-lg font-medium">
+          Loading resources...
+        </p>
+      </div>
+    ) : (
+      <div className="grid gap-3 md:grid-cols-3">
+        {resources.videos?.map((video, index) => (
+          <a
+            key={index}
+            href={video.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow"
+          >
+            <img
+              src={video.thumbnail}
+              alt={video.title}
+              className="w-full h-48 object-cover rounded mb-3"
+            />
+            <h5 className="font-semibold mb-2">{video.title}</h5>
+            <p className="text-sm text-gray-600">{video.channelTitle}</p>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+
+  // Modify handleNextQuestion to fetch resources when quiz is completed
   const handleNextQuestion = async () => {
     const nextIndex = currentQuestionIndex + 1;
     if (nextIndex < questionIds.length) {
       setCurrentQuestionIndex(nextIndex);
       await fetchQuestion(questionIds[nextIndex]);
     } else {
-      // Quiz completed
       try {
         const response = await api.post("/quiz/quiz_result", {
           quizId: quizId,
         });
         setQuizScore(response.data.score);
         setQuizCompleted(true);
+        // Fetch resources when quiz is completed
+        await fetchResources(selectedTopic);
       } catch (error) {
         console.error("Error fetching quiz result:", error);
       }
     }
   };
 
+  // Modify the quiz completed section to include resources
   if (quizCompleted) {
     const data = [
       { name: "Correct", value: quizScore },
@@ -132,42 +193,80 @@ const QuizPage = () => {
     const COLORS = ["#14B8A6", "#EF4444"];
 
     return (
-      <div className="container mx-auto px-4 py-8 text-center">
-        <h2 className="text-2xl font-bold mb-4">Quiz Completed!</h2>
-        <div className="w-64 h-64 mx-auto mb-4">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={data}
-                cx="50%"
-                cy="50%"
-                innerRadius={0}
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-                animationBegin={0}
-                animationDuration={1500}
-              >
-                {data.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-12">
+          <h2 className="text-2xl font-bold mb-4">Quiz Completed!</h2>
+          <div className="w-64 h-64 mx-auto mb-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={data}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={0}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                  animationBegin={0}
+                  animationDuration={1500}
+                >
+                  {data.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <p className="text-lg mb-8">Your Score: {quizScore}/5</p>
+
+          <button
+            onClick={() => {
+              setQuizCompleted(false);
+              setQuizStarted(false);
+              setSelectedTopic("");
+              setCurrentQuestionIndex(0);
+              setQuizScore(null);
+              setQuizId(null);
+              setQuestionIds([]);
+              setCurrentQuestion(null);
+              setIsDirectQuiz(false);
+            }}
+            className="px-6 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+          >
+            Take Another Quiz
+          </button>
         </div>
-        <p className="text-lg">Your Score: {quizScore}/5</p>
-        <button
-          onClick={() => {
-            window.history.pushState({}, "", window.location.pathname);
-            window.location.reload();
-          }}
-          className="mt-4 px-6 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
-        >
-          Take Another Quiz
-        </button>
+
+        {/* Resources Section */}
+        <div className="max-w-8xl mx-auto">
+          <h3 className="text-2xl font-bold mb-6 text-center">
+            Resources You Can explore{" "}
+          </h3>
+
+          {/* YouTube Videos */}
+          <div className="grid gap-3 md:grid-cols-3">
+            {resources.videos?.map((video, index) => (
+              <a
+                key={index}
+                href={video.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow"
+              >
+                <img
+                  src={video.thumbnail}
+                  alt={video.title}
+                  className="w-full h-48 object-cover rounded mb-3"
+                />
+                <h5 className="font-semibold mb-2">{video.title}</h5>
+                <p className="text-sm text-gray-600">{video.channelTitle}</p>
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -273,7 +372,9 @@ const QuizPage = () => {
           Learn Indian Law Through Interactive Quizzes
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Enhance your understanding of Indian law through engaging quizzes. Learn key concepts and principles while practicing with real-world scenarios!
+          Enhance your understanding of Indian law through engaging quizzes.
+          Learn key concepts and principles while practicing with real-world
+          scenarios!
         </p>
       </div>
 

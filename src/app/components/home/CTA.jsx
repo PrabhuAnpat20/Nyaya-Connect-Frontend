@@ -2,6 +2,7 @@
 import React from "react";
 import { ChevronRight } from "lucide-react";
 import { useLanguage } from "../../context/LanguageContext";
+import Link from 'next/link';
 
 export default function CTA() {
   const { t } = useLanguage();
@@ -19,13 +20,13 @@ export default function CTA() {
         </h2>
         <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
           <div className="inline-flex rounded-full shadow">
-            <a
+            <Link
               href="/quiz"
               className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-full text-teal-600 bg-white hover:bg-teal-50 transition-colors"
             >
               {t('giveQuiz')}
               <ChevronRight className="ml-2 h-5 w-5" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>
