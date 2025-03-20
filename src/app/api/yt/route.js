@@ -3,9 +3,10 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
-    const topic = searchParams.get("topic") || "(law OR court OR Judiciary) AND india";
+    const topic =
+      searchParams.get("topic") || "(law OR court OR Judiciary) AND india";
 
-    const YOUTUBE_API_KEY = "AIzaSyBsOLBNAFi0ztRPxA3MB97wb3CzyjMlUpY";
+    const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
     const response = await fetch(
       `https://www.googleapis.com/youtube/v3/search?` +
         `part=snippet&` +
@@ -17,15 +18,16 @@ export async function GET(request) {
 
     const data = await response.json();
 
-    const videos = data.items?.map((item) => ({
-      id: item.id.videoId,
-      title: item.snippet.title,
-      description: item.snippet.description,
-      thumbnail: item.snippet.thumbnails.medium.url,
-      publishedAt: item.snippet.publishedAt,
-      channelTitle: item.snippet.channelTitle,
-      url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-    })) || [];
+    const videos =
+      data.items?.map((item) => ({
+        id: item.id.videoId,
+        title: item.snippet.title,
+        description: item.snippet.description,
+        thumbnail: item.snippet.thumbnails.medium.url,
+        publishedAt: item.snippet.publishedAt,
+        channelTitle: item.snippet.channelTitle,
+        url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+      })) || [];
 
     return NextResponse.json({
       videos: videos,

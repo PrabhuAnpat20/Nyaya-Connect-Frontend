@@ -13,7 +13,7 @@ import ReactMarkdown from "react-markdown";
 import withAuth from "@/app/utils/isAuth";
 import remarkGfm from "remark-gfm"; // Add this import at the top
 import { useLanguage } from "@/app/context/LanguageContext";
-
+import { GenAiURL } from "@/api/api";
 function App() {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
@@ -118,18 +118,15 @@ function App() {
       ]);
 
       try {
-        const response = await axios.post(
-          "https://nyaya-connect-genai.onrender.com/api/chat",
-          {
-            query: message,
-            language:
-              language === "hi"
-                ? "hindi"
-                : language === "mr"
-                ? "marathi"
-                : "english",
-          }
-        );
+        const response = await axios.post(`${GenAiURL}/api/chat`, {
+          query: message,
+          language:
+            language === "hi"
+              ? "hindi"
+              : language === "mr"
+              ? "marathi"
+              : "english",
+        });
 
         setChatHistory((prev) => [
           ...prev,
