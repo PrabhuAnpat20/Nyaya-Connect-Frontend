@@ -120,6 +120,12 @@ export default function Navbar() {
               {t("aiAssistant")}
             </Link>
             <Link
+              href="/lawyers"
+              className="text-gray-600 hover:text-teal-600 transition-colors"
+            >
+              {t("Lawyers")}
+            </Link>
+            <Link
               href="/news"
               className="text-gray-600 hover:text-teal-600 transition-colors"
             >
@@ -238,6 +244,12 @@ export default function Navbar() {
               className="block px-3 py-2 text-gray-600 hover:text-teal-600"
             >
               {t("aiAssistant")}
+            </Link>
+            <Link
+              href="/lawyers"
+              className="text-gray-600 hover:text-teal-600 transition-colors"
+            >
+              {t("Lawyers")}
             </Link>
             <Link
               href="/news"

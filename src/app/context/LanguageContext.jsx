@@ -9,6 +9,7 @@ const translations = {
     lawsToKnow: "Laws To Know",
     aiAssistant: "AI Assistant",
     documentAssistant: "Document Assistant",
+    Lawyers: "Lawyers",
     news: "News",
     getStarted: "Get Started",
     logout: "Logout",
@@ -28,6 +29,8 @@ const translations = {
     documentSimplifierDesc: "Easy-to-understand legal documents.",
     interactiveQuizzes: "Interactive Quizzes",
     interactiveQuizzesDesc: "Learn through engaging legal quizzes.",
+    lawyerConnect: "Lawyer Connect",
+    lawyerConnectDesc: "For professional legal consultation and guidance",
 
     // CTA
     readyToStart: "Ready to start learning through interactive quizzes?",
@@ -57,6 +60,7 @@ const translations = {
     aiAssistant: "AI सहायक",
     documentAssistant: "दस्तावेज़ सहायक",
     news: "समाचार",
+    Lawyers: "वकील",
     getStarted: "शुरू करें",
     logout: "लॉग आउट",
     language: "भाषा",
@@ -75,7 +79,8 @@ const translations = {
     documentSimplifierDesc: "आसानी से समझने योग्य कानूनी दस्तावेज़।",
     interactiveQuizzes: "इंटरैक्टिव क्विज़",
     interactiveQuizzesDesc: "आकर्षक कानूनी क्विज़ के माध्यम से सीखें।",
-
+    lawyerConnect: "वकील कनेक्ट",
+    lawyerConnectDesc: " मार्गदर्शन के लिए अनुभवी वकीलों से जुड़ें",
     // CTA
     readyToStart:
       "इंटरैक्टिव क्विज़ के माध्यम से सीखना शुरू करने के लिए तैयार हैं?",
@@ -104,6 +109,7 @@ const translations = {
     aiAssistant: "AI सहाय्यक",
     documentAssistant: "दस्तऐवज सहाय्यक",
     news: "बातम्या",
+    Lawyers: "वकील",
     getStarted: "सुरू करा",
     logout: "बाहेर पडा",
     language: "भाषा",
@@ -122,7 +128,8 @@ const translations = {
     documentSimplifierDesc: "सहज समजण्यायोग्य कायदेशीर दस्तऐवज.",
     interactiveQuizzes: "इंटरॅक्टिव्ह क्विझेस",
     interactiveQuizzesDesc: "आकर्षक कायदेशीर क्विझेसद्वारे शिका.",
-
+    lawyerConnect: "वकील कनेक्ट",
+    lawyerConnectDesc: " मार्गदर्शनासाठी अनुभवी वकिलांशी संपर्क साधा",
     // CTA
     readyToStart: "इंटरॅक्टिव्ह क्विझेसद्वारे शिकण्यास तयार आहात?",
     beginJourney: "आजच तुमची ज्ञानाची यात्रा सुरू करा.",

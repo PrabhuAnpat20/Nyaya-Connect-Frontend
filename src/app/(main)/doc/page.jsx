@@ -54,7 +54,10 @@ function Page() {
     ]);
 
     try {
-      const { data } = await api.post("/pdf/chat", { query });
+      const { data } = await api.post("/pdf/chat", { 
+        query,
+        file_name: file.name // Add the file name to the request
+      });
       setChatHistory((prev) => [
         ...prev,
         {
