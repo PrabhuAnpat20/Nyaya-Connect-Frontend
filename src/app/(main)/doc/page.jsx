@@ -5,6 +5,7 @@ import { Send, Loader2, MessageSquare } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import withAuth from "@/app/utils/isAuth";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 function Page() {
   const [file, setFile] = useState(null);
@@ -12,17 +13,19 @@ function Page() {
   const [chatHistory, setChatHistory] = useState([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
+  const { language } = useLanguage();
 
   const handleFileUpload = async (e) => {
     setLoading(true);
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("language", language === "hi" ? "hindi" : language === "mr" ? "marathi" : "english");
 
     try {
       const { data } = await api.post("/pdf/process-pdf", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-        },
+        }
       });
 
       const pdfObjectUrl = URL.createObjectURL(file);
@@ -56,7 +59,8 @@ function Page() {
     try {
       const { data } = await api.post("/pdf/chat", { 
         query,
-        file_name: file.name // Add the file name to the request
+        file_name: file.name,
+        language: language === "hi" ? "hindi" : language === "mr" ? "marathi" : "english"
       });
       setChatHistory((prev) => [
         ...prev,
