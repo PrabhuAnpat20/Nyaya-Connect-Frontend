@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, MapPin, Phone } from "lucide-react";
 import api from "@/api/api";
+import withAuth from "@/app/utils/isAuth";
 
-export default function LawyersPage() {
+function LawyersPage() {
   const [query, setQuery] = useState("");
   const [lawyers, setLawyers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -131,3 +132,4 @@ export default function LawyersPage() {
     </div>
   );
 }
+export default withAuth(LawyersPage);
