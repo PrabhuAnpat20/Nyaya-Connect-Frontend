@@ -42,7 +42,14 @@ const translations = {
     terms: "Terms",
     contact: "Contact",
     allRightsReserved: "© 2024 Nyay Connect. All rights reserved.",
-
+    //doc
+    documentChatAssistant: "Document Chat Assistant",
+    uploadAndChat: "Upload a document and chat with AI about its contents",
+    startChattingPrompt:
+      "Upload a document to start chatting about its contents",
+    askAboutDocument: "Ask about the document...",
+    uploadPDF: "Upload PDF",
+    chooseFile: "Choose File",
     //assistant
     legalAIAssistant: "Legal AI Assistant",
     legalGuide: "Your trusted legal information guide",
@@ -95,19 +102,29 @@ const translations = {
     //assistnat
     legalAIAssistant: "कानूनी AI सहायक",
     legalGuide: "आपका विश्वसनीय कानूनी जानकारी मार्गदर्शक",
-    howCanIHelp: "मैं आज आपकी कानूनी जानकारी में कैसे मदद कर सकता हूं?",
+    howCanIHelp: "मैं आज आपकी कानूनी जानकारी में कैसे मदत कर सकता हूं?",
     typeLegalQuestion: "अपना कानूनी प्रश्न यहां टाइप करें...",
     tenantRights: "किरायेदार के रूप में मेरे क्या अधिकार हैं?",
     smallClaims: "छोटे दावों का मामला कैसे दर्ज करें?",
     carAccident: "कार दुर्घटना के बाद क्या करना चाहिए?",
     intellectualProperty: "मैं अपनी बौद्धिक संपदा की रक्षा कैसे कर सकता हूं?",
+
+    //doc
+    documentChatAssistant: "दस्तावेज़ चैट सहायक",
+    uploadAndChat:
+      "दस्तावेज़ अपलोड करें और AI के साथ इसकी सामग्री के बारे में चैट करें",
+    startChattingPrompt:
+      "सामग्री के बारे में चैट करने के लिए एक दस्तावेज़ अपलोड करें",
+    askAboutDocument: "दस्तावेज़ के बारे में पूछें...",
+    uploadPDF: "पीडीएफ अपलोड करें",
+    chooseFile: "फ़ाइल चुनें",
   },
   mr: {
     // Navbar
     home: "मुख्यपृष्ठ",
     lawsToKnow: "जाणून घेण्यासाठी कायदे",
     aiAssistant: "AI सहाय्यक",
-    documentAssistant: "दस्तऐवज सहाय्यक",
+    documentAssistant: "दस्तावेज़ सहाय्यक",
     news: "बातम्या",
     Lawyers: "वकील",
     getStarted: "सुरू करा",
@@ -124,8 +141,8 @@ const translations = {
     knowledgeBaseDesc: "सर्वसमावेशक कायदेशीर माहिती आणि संसाधने.",
     aiAssistantFeature: "AI सहाय्यक",
     aiAssistantDesc: "कायदेशीर प्रश्नांची त्वरित उत्तरे मिळवा.",
-    documentSimplifier: "दस्तऐवज सुलभकर्ता",
-    documentSimplifierDesc: "सहज समजण्यायोग्य कायदेशीर दस्तऐवज.",
+    documentSimplifier: "दस्तावेज़ सुलभकर्ता",
+    documentSimplifierDesc: "सहज समजण्यायोग्य कायदेशीर दस्तावेज.",
     interactiveQuizzes: "इंटरॅक्टिव्ह क्विझेस",
     interactiveQuizzesDesc: "आकर्षक कायदेशीर क्विझेसद्वारे शिका.",
     lawyerConnect: "वकील कनेक्ट",
@@ -149,6 +166,15 @@ const translations = {
     smallClaims: "लहान दावा कसा दाखल करावा?",
     carAccident: "कार अपघातानंतर काय करावे?",
     intellectualProperty: "मी माझी बौद्धिक संपदा कशी संरक्षित करू शकतो?",
+
+    //doc
+    documentChatAssistant: "दस्तऐवज चॅट सहाय्यक",
+    uploadAndChat:
+      "दस्तऐवज अपलोड करा आणि त्याच्या सामग्रीबद्दल AI सोबत चॅट करा",
+    startChattingPrompt: "सामग्रीबद्दल चॅट करण्यासाठी दस्तऐवज अपलोड करा",
+    askAboutDocument: "दस्तऐवजाबद्दल विचारा...",
+    uploadPDF: "पीडीएफ अपलोड करा",
+    chooseFile: "फाईल निवडा",
   },
 };
 

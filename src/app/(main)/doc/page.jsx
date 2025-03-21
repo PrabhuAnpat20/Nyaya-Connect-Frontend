@@ -83,14 +83,16 @@ function Page() {
     setQuery("");
   };
 
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-[calc(100vh-6rem)] flex flex-col">
       <div className="text-center mb-4 pt-4">
         <h1 className="text-4xl font-bold text-teal-800 mb-2">
-          Document Chat Assistant
+          {t('documentChatAssistant')}
         </h1>
         <p className="text-teal-700">
-          Upload a document and chat with AI about its contents
+          {t('uploadAndChat')}
         </p>
       </div>
 
@@ -101,10 +103,10 @@ function Page() {
             <div className="flex-1 flex flex-col items-center justify-center">
               <Loader2 className="w-12 h-12 animate-spin text-teal-600 mb-4" />
               <p className="text-teal-700 text-lg font-medium">
-                Processing your document...
+                {t('processingDocument')}
               </p>
               <p className="text-gray-500 text-sm mt-2">
-                This may take a few moments
+                {t('thisWillTakeMoments')}
               </p>
             </div>
           ) : !pdfUrl ? (
@@ -120,7 +122,7 @@ function Page() {
                 disabled={!file || loading}
                 className="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 disabled:bg-gray-400 w-full"
               >
-                Upload PDF
+                {t('uploadPDF')}
               </button>
             </div>
           ) : (
@@ -141,7 +143,7 @@ function Page() {
               <div className="text-center text-gray-600">
                 <MessageSquare className="w-12 h-12 mx-auto mb-2 opacity-50" />
                 <p className="text-lg mb-2">
-                  Upload a document to start chatting about its contents
+                  {t('startChattingPrompt')}
                 </p>
               </div>
             ) : (
@@ -158,7 +160,7 @@ function Page() {
                           A
                         </div>
                         <h2 className="text-xl font-semibold text-gray-800">
-                          Response
+                          {t('response')}
                         </h2>
                       </div>
                       <div className="prose prose-sm md:prose-base lg:prose-lg prose-headings:font-bold prose-headings:text-gray-900 prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-p:text-gray-700 prose-strong:text-gray-900 prose-ul:list-disc prose-ol:list-decimal prose-li:ml-4 prose-a:text-blue-600 hover:prose-a:text-blue-700 prose-a:underline max-w-none">
@@ -210,7 +212,7 @@ function Page() {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Ask about the document..."
+                placeholder={t('askAboutDocument')}
                 className="flex-1 rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all text-base"
                 disabled={!pdfUrl || loading}
               />
